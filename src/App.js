@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Modal from './components/Modal';
+import data from './data';
+
+const App = () => {
+	const [modal, setModal] = useState(false);
+	const [page, setPage] = useState(1);
+	const [modalContent, setModalContent] = useState({});
+
+	useEffect(() => {
+		const result = data.find((data) => data.page === page);
+		setModalContent(result);
+	}, [page]);
+
+	return (
+		<>
+			<button className='modal-btn' onClick={() => setModal(true)}>
+				Mern Stack Roadmap
+			</button>
+			{modal && (
+				<Modal
+					setModal={setModal}
+					page={page}
+					setPage={setPage}
+					modalContent={modalContent}
+				/>
+			)}
+		</>
+	);
+};
 
 export default App;
